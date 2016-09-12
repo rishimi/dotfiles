@@ -1,66 +1,84 @@
+" VIM Configuration File
+" Description: Optimized for C/C++ development, but useful also for other things.
+" Author: Gerhard Gappmeier
+"
+
+" set UTF-8 encoding
+set enc=utf-8
+set fenc=utf-8
+set termencoding=utf-8
+" disable vi compatibility (emulation of old bugs)
 set nocompatible
+" use indentation of previous line
+set autoindent
+" use intelligent indentation for C
+set smartindent
+" configure tabwidth and insert spaces instead of tabs
+set tabstop=4        " tab width is 4 spaces
+set shiftwidth=4     " indent also with 4 spaces
+set expandtab        " expand tabs to spaces
+" wrap lines at 120 chars. 80 is somewaht antiquated with nowadays displays.
+set textwidth=120
+" turn syntax highlighting on
+set t_Co=256
+syntax on
+" colorscheme wombat256
+" turn line numbers on
 set number
-
-set backspace=2
-set encoding=utf-8
-set tabstop=8
-set softtabstop=8
-set shiftwidth=8
-set noexpandtab
-
-filetype plugin indent on
-syn on se title
-
+" highlight matching braces
+set showmatch
+" intelligent comments
+set comments=sl:/*,mb:\ *,elx:\ */
+set hidden
+"---------------------- Pathogen-----------------------------------
 execute pathogen#infect()
-call pathogen#helptags()
 
+"---------------------- NERDTree-----------------------------------
+    " map a specific key or shortcut to open NERDTree
+map <C-n> :NERDTreeToggle<CR>
+    "close vim if the only window left open is a NERDTree 
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  " NERDTress File highlighting
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+ exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+ exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
 
-"vim-airline settings
-set laststatus=2  
-set t_Co=256  
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')  
+"------------------------NERDCommenter------------------------------
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
 
-let g:airline_powerline_fonts = 1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
 
-if !exists('g:airline_symbols')
-	let g:airline_symbols = {}
-endif
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
 
-" unicode symbols for vim-airline
-let g:airline_left_sep = '»'
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '«'
-let g:airline_right_sep = '◀'
-let g:airline_symbols.crypt = '🔒'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.maxlinenr = '☰'
-let g:airline_symbols.maxlinenr = ''
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.spell = 'Ꞩ'
-let g:airline_symbols.notexists = '∄'
-let g:airline_symbols.whitespace = 'Ξ'
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
 
-" powerline symbols for vim-airline
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
-let g:airline_theme='jellybeans'
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
 
-"syntastic settings
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_error_symbol = "✗"
-let g:syntastic_warning_symbol = "⚠"
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+"----------------------YouCompleteMe------------------
+let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 

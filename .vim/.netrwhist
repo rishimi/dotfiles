@@ -1,7 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_cnt =6
 let g:netrw_dirhist_1='/proc/8683/cwd'
 let g:netrw_dirhist_2='/home/rishi/Downloads'
 let g:netrw_dirhist_3='/home/rishi/.vim'
 let g:netrw_dirhist_4='/home/rishi/mavensettings/.m2'
 let g:netrw_dirhist_5='/usr/share/phpldapadmin/htdocs'
+let g:netrw_dirhist_6='/home/rishi/.vim'
